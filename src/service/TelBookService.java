@@ -1,4 +1,4 @@
-﻿package service;
+package service;
 
 import db.DBConn;
 import dto.TelDto;
@@ -16,8 +16,31 @@ public class TelBookService implements CrudInterface{
     PreparedStatement psmt = null;
     String sql;
     @Override
-    public int InsertData(TelDto dto) {
+    public int insertData(TelDto dto) {
         System.out.println("[TelBookService.InsertData]");
+
+        try {
+            sql = "INSERT INTO telbook(name,age,address,phone)";
+            sql = sql + "VALUES(?,?,?,?)";
+
+            psmt = conn.prepareStatement(sql);
+            //?각 자릴를 Mapping 해 준다
+            psmt.setString(1, dto.getName());
+            psmt.setInt(2, dto.getAge());
+            psmt.setString(3, dto.getAddress());
+            psmt.setString(4,dto.getPhone());
+
+            int result = psmt.executeUpdate();
+             return result;
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        }
+
+        return 0;
+    }
+
+    @Override
+    public int InsertData(TelDto dto) {
         return 0;
     }
 

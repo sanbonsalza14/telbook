@@ -1,10 +1,12 @@
-﻿package service;
+package service;
 
 import dto.TelDto;
 
 import java.util.List;
 
 public interface CrudInterface {
+    int insertData(TelDto dto);
+
     int InsertData(TelDto dto);
     int UpdateData(TelDto dto);
 

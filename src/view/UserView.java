@@ -13,6 +13,28 @@ public class UserView {
 
     public void insertView() {
         System.out.println("=== 전화번호 등록 ===");
+        System.out.println("이름을 입력하세요");
+        String name = sc.next();
+        System.out.println("나이를 입력");
+        int age = sc.nextInt();
+        System.out.println("주소를 입력");
+        String address = sc.next();
+        System.out.println("전화");
+        String phone = sc.next();
+
+        TelDto dto = new TelDto();
+        dto.setName(name);
+        dto.setAge(age);
+        dto.setAddress(address);
+        dto.setPhone(phone);
+        //서비스에 insert 요청
+        int result = telBookService.insertData(dto);
+        //result > 0 : insert 성공, result = 0 : 실패
+        if (result > 0){
+            System.out.println("정상입력");
+        }else {
+            System.out.println("입력 안됨");
+        }
     }
 
     public void updateView() {
