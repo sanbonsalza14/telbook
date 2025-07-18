@@ -66,6 +66,7 @@ public class UserView {
         dto.setAge(age);
         dto.setAddress(address);
         dto.setPhone(phone);
+
         // 서비스에 insert 요청하기
         int result = telBookService.insertData(dto);
         // result > 0 : insert 성공, result = 0 : 실패
@@ -89,12 +90,13 @@ public class UserView {
             boolean yesOrNo = true;
             // 이름 수정 처리
             while (yesOrNo) {
-                System.out.println("수정 전 이름: " + oldDto.getName());
+                System.out.println("수정 전 : " + oldDto.getName());
                 System.out.println("수정할까요(Y/N)?");
                 String strYesOrNo = sc.next();
                 if (strYesOrNo.toUpperCase().equals("Y")) {
                     System.out.println("수정할 이름 : ");
                     oldDto.setName(sc.next());
+                    yesOrNo = false;
                 } else {
                     yesOrNo = false;
                 }
@@ -108,6 +110,7 @@ public class UserView {
                 if (strYesOrNo.toUpperCase().equals("Y")) {
                     System.out.println("수정할 나이 : ");
                     oldDto.setAge(sc.nextInt());
+                    yesOrNo = false;
                 } else {
                     yesOrNo = false;
                 }
@@ -121,6 +124,7 @@ public class UserView {
                 if (strYesOrNo.toUpperCase().equals("Y")) {
                     System.out.println("수정할 주소 : ");
                     oldDto.setAddress(sc.next());
+                    yesOrNo = false;
                 } else {
                     yesOrNo = false;
                 }
@@ -134,6 +138,7 @@ public class UserView {
                 if (strYesOrNo.toUpperCase().equals("Y")) {
                     System.out.println("수정할 전번 : ");
                     oldDto.setPhone(sc.next());
+                    yesOrNo = false;
                 } else {
                     yesOrNo = false;
                 }
@@ -148,24 +153,18 @@ public class UserView {
         }
     }
 
-
-
-
-
-
-
     public void deleteView() {
         System.out.println("=== 전화번호 삭제 ===");
         System.out.println("삭제할 ID를 입력하세요");
         int deleteId = sc.nextInt();
-        //삭제 요청 후 결과를 int 타입으로 받기
-        int result = telBookService.deleteData((deleteId));
-        //result 값이 양수면 성고 ㅇ,그렇지 않으면 실패
+        // 삭제 요청 후 결과를 int 타입으로 받기
+        int result = telBookService.deleteData(deleteId);
+        // result 값이 양수면 성공, 그렇지 않으면 실패
         if (result > 0) {
             System.out.println("정상적으로 삭제되었습니다.");
-        }else {
+        } else {
             System.out.println("삭제되지 않았습니다.");
-            System.out.println("관리자에게 문의 하세요.");
+            System.out.println("관리자에게 문의하세요.");
         }
     }
 
@@ -181,5 +180,15 @@ public class UserView {
 
     public void searchView() {
         System.out.println("=== 전화번호 검색 ===");
+        System.out.println("이름으로 검색합니다.");
+        System.out.println("이름 전체나 일부를 입력하세요");
+        String keyword = sc.next();
+        List<TelDto> dtoList = telBookService.searchList(keyword);
+        if (dtoList.size() == 0) {
+            System.out.println("찾는 데이터가 없습니다.");
+        } else {
+            dtoList.stream()
+                    .forEach(x -> System.out.println(x));
+        }
     }
 }
