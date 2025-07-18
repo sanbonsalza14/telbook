@@ -90,7 +90,7 @@ public class TelBookService implements CrudInterface{
         ResultSet rs = null;
 
         try {
-            sql = "SELECT * FROM telbook";
+            sql = "SELECT * FROM telBook";
             psmt = conn.prepareStatement(sql);
             // SQL 구문 실행
             rs = psmt.executeQuery();
@@ -104,6 +104,29 @@ public class TelBookService implements CrudInterface{
                 dto.setAge(rs.getInt("age"));
                 dto.setAddress(rs.getString("address"));
                 dto.setPhone(rs.getString("phone"));
+                //날짜가  null 인지 확인 후 처리
+                if (rs.getTimestamp("insertedDate") != null) {
+                    dto.setInsertedDate(
+                            rs.getTimestamp("updatedDate")
+                                    .toLocalDateTime());
+                    dto.setUpdatedDate(
+                            rs.getTimestamp("updatedDate")
+                                    .toLocalDateTime());
+
+                } else {
+                    dto.setInsertedDate(null);
+
+                }
+                if (rs.getTimestamp("updatedDate") != null) {
+                    dto.setInsertedDate(
+                            rs.getTimestamp("updatedDate")
+                                    .toLocalDateTime());
+
+                } else {
+                    dto.setInsertedDate(null);
+                }
+
+
 
                 // 리스트에 담기
                 dtoList.add(dto);
